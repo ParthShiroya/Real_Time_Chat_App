@@ -1,0 +1,90 @@
+@import './base.css';
+
+#app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* margin: 0 auto; */
+  /* padding: 5vh; */
+  font-weight: normal;
+}
+
+h1 {
+  margin-bottom: 0;
+}
+
+.ant-upload-select-picture-card {
+  border-radius: 8px !important;
+  border: none !important;
+  color: #999;
+}
+
+.ant-layout {
+  height: 100vh;
+}
+.search .ant-input {
+  background-color: var(--purple-4);
+}
+.search .ant-input-affix-wrapper {
+  border-radius: 20px;
+}
+
+.ant-modal-content {
+  background-color: var(--purple-6);
+}
+.ant-modal-header {
+  background-color: var(--purple-6);
+}
+.ant-form {
+  background-color: transparent;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  visibility: hidden;
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  visibility: hidden;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 10px;
+}
+
+/* to crop the profile picture to the size of upload field when uploaded */
+.ant-upload.ant-upload-select-picture-card > .ant-upload {
+  overflow: hidden !important;
+}
+
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* body {
+    display: flex;
+    place-items: center;
+  }
+
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    padding: 0;
+  } */
+}
