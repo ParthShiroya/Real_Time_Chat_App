@@ -250,11 +250,9 @@ const onBreakpoint = (broken) => {
                 type="success"
                 ellipsis
                 style="max-width: 250px"
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
-                doloremque consequuntur ullam maiores autem veniam temporibus
-                aliquid facilis excepturi, recusandae fuga, quas maxime id
-                voluptatibus assumenda optio repudiandae voluptatum? Maiores."
+                
               >
+              {{ item.last_message }}
               </a-typography-text>
               <a-badge
                 count="4"

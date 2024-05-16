@@ -29,8 +29,16 @@ const userSchema = new Schema({
   },
   mobileNo: {
     type: String,
-    default: "+91 9979459887"
+    default: "+91 9876543210"
+  },
+  unread: {
+    type: Boolean,
+    default: true
+  },
+  last_message: {
+    type: Schema.Types.ObjectId
   }
+
 });
 
 module.exports = model('User', userSchema)

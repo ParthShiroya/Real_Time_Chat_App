@@ -24,8 +24,8 @@ const dataStore = useDataStore();
 let { user, messages, chat_open } = storeToRefs(dataStore);
 // !SECTION ######
 
-const mssg = ref("");
-
+const mssg = ref(""),
+  messageBox = ref(null);
 const props = defineProps({ socket: Object });
 
 const sendMessage = async () => {
@@ -47,6 +47,7 @@ const sendMessage = async () => {
       dataStore.pushMessage(res.data);
       props.socket.emit("data-changes");
       mssg.value = "";
+      messageBox.value.focus();
     })
     .catch((err) => {
       console.log("Error while posting", err);
@@ -69,7 +70,7 @@ const deleteMessage = async (message_id) => {
     .then((res) => {
       console.log("Message delete");
       props.socket.emit("data-changes");
-      dataStore.messages = res.data.messages
+      dataStore.messages = res.data.messages;
     })
     .catch((err) => {
       console.log("Can't delete", err.message);
@@ -112,8 +113,9 @@ const showDeleteConfirm = (message_id) => {
   <div class="selectchat" v-if="Object.keys(chat_open).length === 0">
     <span
       style="background-color: #240046; padding: 6px 12px; border-radius: 20px"
-      >Select a Chat to continue</span
     >
+      Select a Chat to continue
+    </span>
   </div>
 
   <div class="currentchat" v-else>
@@ -135,6 +137,7 @@ const showDeleteConfirm = (message_id) => {
     </div>
 
     <div class="chat-messages">
+      <p class="system-message">System Message</p>
       <div v-for="m in messages" :key="m._id" style="width: 100%">
         <a-dropdown :trigger="['contextmenu']">
           <p
@@ -176,6 +179,7 @@ const showDeleteConfirm = (message_id) => {
           </template>
         </a-dropdown>
       </div>
+      <div id="anchor"></div>
     </div>
 
     <div class="chat-send">
@@ -185,6 +189,7 @@ const showDeleteConfirm = (message_id) => {
         v-model="mssg"
         placeholder="Message..."
         class="message-input"
+        ref="messageBox"
       />
       <button><PaperClipOutlined /></button>
       <button v-if="mssg === ''"><AudioOutlined /></button>
@@ -225,6 +230,14 @@ const showDeleteConfirm = (message_id) => {
   padding: 16px;
   overflow: hidden;
 }
+/* to create bottom scroll */
+.chat-messages * {
+  overflow-anchor: none;
+}
+#anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}
 .chat-send {
   display: flex;
   align-items: center;
@@ -255,12 +268,11 @@ const showDeleteConfirm = (message_id) => {
 }
 
 .message-sent {
-  /* align-self: flex-end; */
   max-width: 60%;
   margin-left: auto;
   width: fit-content;
   background-color: #3c096c;
-  padding: 4px 8px;
+  padding: 4px 8px 4px 12px;
   border-radius: 16px;
 }
 .message-received {
@@ -268,8 +280,17 @@ const showDeleteConfirm = (message_id) => {
   width: fit-content;
   background-color: #c77dff;
   color: #10002b;
-  padding: 4px 8px;
+  padding: 4px 8px 4px 12px;
   border-radius: 16px;
+}
+.system-message {
+  font-size: small;
+  max-width: 60%;
+  align-self: center;
+  width: fit-content;
+  padding: 2px 6px 2px 6px;
+  margin-top: auto;
+  /* border-radius: 16px; */
 }
 .message-time {
   font-size: x-small;
