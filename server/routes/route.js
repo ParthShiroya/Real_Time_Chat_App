@@ -7,15 +7,15 @@ const User = require("../models/user");
 const router = Router();
 
 // delete this route
-router.route("/").get(async (req, res) => {
-  try {
-    let messages = await Message.find({});
-    let users = await User.find({});
-    res.status(200).json({ messages: messages, chats: users });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
+// router.route("/").get(async (req, res) => {
+//   try {
+//     let messages = await Message.find({});
+//     let users = await User.find({});
+//     res.status(200).json({ messages: messages, chats: users });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
 // SECTION message route
 router
@@ -128,7 +128,7 @@ router
           { sender: req.body.user_id },
           { receiver: req.body.user_id },
         ]);
-        if (messages !== {}) {
+        if (messages != {}) {
           Message.deleteMany(messages)
             .then(() => {
               console.log("Messages related to deleted user have been erased.");

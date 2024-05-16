@@ -14,6 +14,7 @@ const indexRouter = require("./routes/route");
 
 // to allow multiple origins for cors policy
 var whitelist = ["http://localhost:5173", "http://127.0.0.1:5173"];
+
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
@@ -96,6 +97,6 @@ io.on("connection", (socket) => {
 
 app.use("/", indexRouter);
 
-server.listen(3000, () => {
-  console.log("Server running on 3000");
+server.listen(8000, () => {
+  console.log("Server running on 8000");
 });

@@ -21,13 +21,15 @@ import { ref, reactive, nextTick } from "vue";
 import axios from "axios";
 // ######
 
+
 // ###### PINIA STORE VARIABLES ######
 const dataStore = useDataStore();
 let { loginFormVisible, signupFormVisible, user } = storeToRefs(dataStore);
 // ######
 
+
 // ###### VARIABLES ######
-const socket = io("http://localhost:3000"),
+const socket = io("http://localhost:8000"),
   formState = reactive({
     username: "",
     name: "",
@@ -84,9 +86,11 @@ const openSignUp = async () => {
 // function for login form
 const logInUser = async (values) => {
   // NOTE axios api for logging in
+  console.log(axios);
   await axios
     .post("/api/user/login", formState)
     .then((res) => {
+      console.log(res);
       dataStore.user = res.data;
       dataStore.loginFormVisible = false;
       clearFormState();

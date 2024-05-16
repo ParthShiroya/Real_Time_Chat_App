@@ -6,7 +6,8 @@
   "scripts": {
     "start:server": "nodemon --no-deprecation server",
     "start:client": "npm run dev --prefix client",
-    "start": "concurrently \"npm run start:server\" \"npm run start:client\" "
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\" ",
+    "i-modules": "npm install & cd ./client && npm install"
   },
   "keywords": [],
   "author": "",
