@@ -27,6 +27,8 @@ let { user, messages, chat_open } = storeToRefs(dataStore);
 const mssg = ref(""),
   messageBox = ref(null);
 const props = defineProps({ socket: Object });
+let lastSavedDate = null;
+const currentDate = `${new Date().getDate().toString().padStart(2,'0')}.${(new Date().getMonth()+1).toString().padStart(2,'0')}.${new Date().getFullYear()}`;
 
 const sendMessage = async () => {
   // NOTE axios api for sending message
@@ -107,6 +109,25 @@ const showDeleteConfirm = (message_id) => {
     class: "test",
   });
 };
+
+const calculateTimeFromDB = (time) => {
+  const dateTimeObject = new Date(Date.parse(time));
+  const hours = dateTimeObject.getHours().toString().padStart(2, "0");
+  const minutes = dateTimeObject.getMinutes().toString().padStart(2, "0");
+  return `${hours}:${minutes}`;
+};
+const dayChangeMessage = (time) => {
+  const dateTimeObject = new Date(Date.parse(time));
+  const date = dateTimeObject.getDate().toString().padStart(2, "0");
+  const month = (dateTimeObject.getMonth() + 1).toString().padStart(2, "0");
+  const year = dateTimeObject.getFullYear().toString();
+  if (lastSavedDate == `${date}.${month}.${year}`) return false;
+  else {
+    lastSavedDate = `${date}.${month}.${year}`;
+    return true;
+  }
+  // return `${date}.${month}.${year}`;
+};
 </script>
 
 <template>
@@ -139,6 +160,17 @@ const showDeleteConfirm = (message_id) => {
     <div class="chat-messages">
       <p class="system-message">System Message</p>
       <div v-for="m in messages" :key="m._id" style="width: 100%">
+        <p
+          class="date-chip"
+          v-if="
+            m.sender == user._id &&
+            m.receiver == chat_open._id &&
+            dayChangeMessage(m.sentAt)
+          "
+        >
+          <span v-if="currentDate == lastSavedDate">Today</span>
+          <span v-else>{{ lastSavedDate }}</span>
+        </p>
         <a-dropdown :trigger="['contextmenu']">
           <p
             class="message-sent"
@@ -146,7 +178,7 @@ const showDeleteConfirm = (message_id) => {
           >
             {{ m.message }}
             <span class="message-time">
-              2:39 AM
+              {{ calculateTimeFromDB(m.sentAt) }}
               <check-outlined
                 v-if="m.seen"
                 style="margin-left: 4px; color: red"
@@ -291,6 +323,16 @@ const showDeleteConfirm = (message_id) => {
   padding: 2px 6px 2px 6px;
   margin-top: auto;
   /* border-radius: 16px; */
+}
+.date-chip {
+  font-size: small;
+  max-width: 60%;
+  align-self: center;
+  width: fit-content;
+  padding: 1px 8px;
+  margin: auto;
+  background-color: var(--purple-5);
+  border-radius: 16px;
 }
 .message-time {
   font-size: x-small;
